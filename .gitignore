@@ -30,3 +30,6 @@
 
 # Debug files
 *.dSYM/
+
+main
+geany_run_script.sh
