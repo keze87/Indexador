@@ -3,6 +3,13 @@
 
 #include "Lista.h"
 
+typedef struct TElemParser{
+	char palabra[255];
+	int pagina;
+	int linea;
+	int pos;
+}TElemParser;
+
 typedef struct TDAParser{
 	TListaSimple parser;
 }TDAParser;
@@ -11,6 +18,6 @@ int PA_Crear(char* RutaDoc, char* RutaConf, TDAParser* Resultado);
 
 int PA_Destruir(TDAParser* Parser);
 
-int PA_SigPalabra();
+int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TListaSimple* ListaParser);
 
 #endif
