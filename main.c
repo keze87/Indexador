@@ -42,7 +42,7 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 	Instrucciones = fopen(RutaIns,"r");
 
-	error = CrearGlosario(&Glosario,RutaDoc,RutaIns);
+	error = CrearGlosario(&Glosario,RutaDoc,RutaConf);
 
 	while (!feof(Instrucciones)) /* Leo hasta que llegue al final */ /* No estoy seguro si se hace así */
 	{
