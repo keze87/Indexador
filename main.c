@@ -47,9 +47,9 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 	while (!feof(Instrucciones)) /* Leo hasta que llegue al final */ /* No estoy seguro si se hace así */
 	{
 
-		fgets(Linea, 4, Instrucciones); /* Las instrucciones solo miden 3 caracteres (con el espacio) */
+		fgets(Linea, 5, Instrucciones); /* Las instrucciones solo miden 4 caracteres (con el espacio) */
 
-		if (strcmp(Linea,"cp ") == 0)
+		if (strcmp(Linea,"-cp ") == 0)
 		{
 
 			fgets(Linea, 250, Instrucciones);
@@ -59,7 +59,7 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 		}
 		else
 		{
-			if (strcmp(Linea,"rp ") == 0)
+			if (strcmp(Linea,"-rp") >= 0)
 			{
 
 				error = Ranking_palabras_Glosario(&Glosario,&Lista);
@@ -67,7 +67,7 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 			}
 			else
 			{
-				if (strcmp(Linea,"dg") == 0)
+				if (strcmp(Linea,"-dg") >= 0)
 				{
 
 					error = DestruirGlosario(&Glosario);
