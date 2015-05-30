@@ -11,6 +11,8 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 
 	/* Magia */
 
+	error = PA_Destruir(&ListaParser);
+
 	return error;
 
 }

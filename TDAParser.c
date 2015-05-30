@@ -7,6 +7,22 @@ typedef enum Separador{
 	CambioPagina = 2
 }Separador;
 
+int PA_Crear(char* RutaDoc, char* RutaConf, TDAParser* Resultado)
+{
+
+	char separadores[255];
+	int cant_separadores = 0;
+
+	int error = 1; /* OK */
+
+	cant_separadores = PConfiguraciones(RutaConf,separadores);
+
+	error = PA_SigPalabra(RutaDoc,cant_separadores,separadores,&Resultado->parser);
+
+	return error;
+
+}
+
 int PConfiguraciones(char* RutaConf, char separadores[255])
 {
 
@@ -28,7 +44,10 @@ int PConfiguraciones(char* RutaConf, char separadores[255])
 			letra = fgetc(Conf);
 
 			if (letra == EOF)
+			{
+				fclose(Conf);
 				return cant_separadores;
+			}
 
 		}
 
@@ -36,7 +55,7 @@ int PConfiguraciones(char* RutaConf, char separadores[255])
 		{
 
 			letra = fgetc(Conf);
-			letra = fgetc(Conf); /*Adelanto 2 letras*/
+			letra = fgetc(Conf); /* Adelanto 2 letras */
 
 			if (letra == 'A') /* [SALTO_PAGINA] */
 			{
@@ -67,7 +86,10 @@ int PConfiguraciones(char* RutaConf, char separadores[255])
 					letra = fgetc(Conf);
 
 					if (letra == EOF)
+					{
+						fclose(Conf);
 						return cant_separadores;
+					}
 
 					if ((letra == 34 /* " */) || (letra == 39 /* ' */))
 					{
@@ -91,23 +113,9 @@ int PConfiguraciones(char* RutaConf, char separadores[255])
 
 	}
 
+	fclose(Conf);
+
 	return cant_separadores;
-
-}
-
-int PA_Crear(char* RutaDoc, char* RutaConf, TDAParser* Resultado)
-{
-
-	char separadores[255];
-	int cant_separadores = 0;
-
-	int error = 1; /* OK */
-
-	cant_separadores = PConfiguraciones(RutaConf,separadores);
-
-	error = PA_SigPalabra(RutaDoc,cant_separadores,separadores,&Resultado->parser);
-
-	return error;
 
 }
 
@@ -127,7 +135,7 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 
 	int largo = 0; /* tamaño de palabra */
 
-	int aux; /* for de separadores*/
+	int aux; /* for de separadores */
 	Separador es_separador;
 
 	Elem.pagina = 1;
@@ -170,6 +178,7 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 		{
 			Elem.palabra[largo] = letra;
 			largo++;
+
 			if (primera_letra == TRUE)
 			{
 				Elem.pos = pos;
@@ -184,11 +193,9 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 
 			if (largo > 0)
 			{
+
 				error = L_Insertar_Cte(ListaParser,L_Siguiente,&Elem);
-				printf("Palabra: %s\n",Elem.palabra);
-				printf("Pagina: %d\n",Elem.pagina);
-				printf("Linea: %d\n",Elem.linea);
-				printf("Posicion: %d\n\n",Elem.pos);
+
 			}
 
 			largo = 0;
@@ -199,6 +206,35 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 
 	}
 
+	fclose(Documento);
+
 	return error;
+
+}
+
+int PA_Destruir(TDAParser* Parser)
+{
+
+	/* Esto vuela */
+	int error = 1;
+	TElemParser Elem;
+
+	error = L_Mover_Cte(&Parser->parser,L_Primero);
+
+	while (error  == 1)
+	{
+		L_Elem_Cte(Parser->parser,&Elem);
+		error = L_Mover_Cte(&Parser->parser,L_Siguiente);
+
+		printf("Palabra: %s\n",Elem.palabra);
+		printf("Pagina: %d\n",Elem.pagina);
+		printf("Linea: %d\n",Elem.linea);
+		printf("Posicion: %d\n\n",Elem.pos);
+	}
+	/* Esto vuela */
+
+	L_Vaciar(&Parser->parser);
+
+	return 0;
 
 }

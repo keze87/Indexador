@@ -20,4 +20,7 @@ int PA_Destruir(TDAParser* Parser);
 
 int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TListaSimple* ListaParser);
 
+/* Procesa archivo Configraciones */
+int PConfiguraciones(char* RutaConf, char separadores[255]);
+
 #endif

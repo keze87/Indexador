@@ -78,6 +78,8 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 	}
 
+	fclose(Instrucciones);
+
 	return error;
 
 }
