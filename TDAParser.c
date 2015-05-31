@@ -17,6 +17,9 @@ int PA_Crear(char* RutaDoc, char* RutaConf, TDAParser* Resultado)
 
 	cant_separadores = PConfiguraciones(RutaConf,separadores);
 
+	if ((cant_separadores == 0) || (separadores[0] == 0))
+		return 0; /* KO */
+
 	error = PA_SigPalabra(RutaDoc,cant_separadores,separadores,&Resultado->parser);
 
 	return error;
@@ -169,7 +172,7 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 			Elem.linea++;
 			pos = 0;
 		}
-		if (letra == EOF)
+		if ((letra == EOF) || (letra == 13))
 		{
 			es_separador = Si;
 		}
@@ -219,9 +222,13 @@ int PA_Destruir(TDAParser* Parser)
 	int error = 1;
 	TElemParser Elem;
 
+	/* Compruebo que la lista esté creada */
+	if (Parser->parser.TamanioDato != sizeof(TElemParser))
+		return 0;
+
 	error = L_Mover_Cte(&Parser->parser,L_Primero);
 
-	while (error  == 1)
+	while (error == 1)
 	{
 		L_Elem_Cte(Parser->parser,&Elem);
 		error = L_Mover_Cte(&Parser->parser,L_Siguiente);
