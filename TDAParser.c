@@ -197,7 +197,8 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 			if (largo > 0)
 			{
 
-				error = L_Insertar_Cte(ListaParser,L_Siguiente,&Elem);
+				/*error = L_Insertar_Cte(ListaParser,L_Siguiente,&Elem);*/
+				error=insertar_ordenado(ListaParser, Elem);
 
 			}
 
@@ -214,6 +215,34 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 	return error;
 
 }
+
+int insertar_ordenado(TListaSimple* ListaParser, TElemParser Elem){
+    TElemParser aux;
+    int mov=OK;
+
+    if (L_Vacia(*ListaParser)){ /*si esta vacia, lo inserto en el primero y salgo*/
+        L_Insertar_Cte(ListaParser, L_Primero, &Elem);
+        return OK;
+    }
+
+    L_Elem_Cte(*ListaParser, &aux);
+    if (strcmp(&(aux.palabra), &(Elem.palabra))>0) /*si el corriente es mayor que el que quiero insertar, voy al primero*/
+        L_Mover_Cte(ListaParser, L_Primero);
+
+    L_Elem_Cte(*ListaParser, &aux);
+    while ((mov==OK)&&(strcmp(&(aux.palabra), &(Elem.palabra))<=0)){   /*mientras que pueda moverse y el aux sea menor o igual al elem*/
+        mov=L_Mover_Cte(ListaParser, L_Siguiente);
+        L_Elem_Cte(*ListaParser, &aux);
+    }
+    if (mov!=OK)
+        L_Insertar_Cte(ListaParser, L_Siguiente, &Elem);
+    else
+        L_Insertar_Cte(ListaParser, L_Anterior, &Elem);
+
+    return OK;
+
+}
+
 
 int PA_Destruir(TDAParser* Parser)
 {
