@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "TDAParser.h"
+#DEFINE OK 1
 
 typedef enum Separador{
 	No = 0,
