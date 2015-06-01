@@ -18,7 +18,7 @@ int PA_Crear(char* RutaDoc, char* RutaConf, TDAParser* Resultado)
 
 	cant_separadores = PConfiguraciones(RutaConf,separadores);
 
-	if ((cant_separadores == 0) || (separadores[0] == 0))
+	if (cant_separadores == 0)
 		return 0; /* KO */
 
 	error = PA_SigPalabra(RutaDoc,cant_separadores,separadores,&Resultado->parser);
@@ -227,11 +227,11 @@ int insertar_ordenado(TListaSimple* ListaParser, TElemParser Elem){
     }
 
     L_Elem_Cte(*ListaParser, &aux);
-    if (strcmp(&(aux.palabra), &(Elem.palabra))>0) /*si el corriente es mayor que el que quiero insertar, voy al primero*/
+    if (strcmp(aux.palabra, Elem.palabra)>0) /*si el corriente es mayor que el que quiero insertar, voy al primero*/
         L_Mover_Cte(ListaParser, L_Primero);
 
     L_Elem_Cte(*ListaParser, &aux);
-    while ((mov==OK)&&(strcmp(&(aux.palabra), &(Elem.palabra))<=0)){   /*mientras que pueda moverse y el aux sea menor o igual al elem*/
+    while ((mov==OK)&&(strcmp(aux.palabra, Elem.palabra)<=0)){   /*mientras que pueda moverse y el aux sea menor o igual al elem*/
         mov=L_Mover_Cte(ListaParser, L_Siguiente);
         L_Elem_Cte(*ListaParser, &aux);
     }
@@ -251,11 +251,13 @@ int PA_Destruir(TDAParser* Parser)
 	/* Esto vuela */
 	int error = 1;
 	TElemParser Elem;
+	/* Esto vuela */
 
 	/* Compruebo que la lista esté creada */
 	if (Parser->parser.TamanioDato != sizeof(TElemParser))
 		return 0;
 
+	/* Esto vuela */
 	error = L_Mover_Cte(&Parser->parser,L_Primero);
 
 	while (error == 1)

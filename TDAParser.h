@@ -23,4 +23,6 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 /* Procesa archivo Configraciones */
 int PConfiguraciones(char* RutaConf, char separadores[255]);
 
+int insertar_ordenado(TListaSimple* ListaParser, TElemParser Elem);
+
 #endif
