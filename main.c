@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
 int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 {
 
+	FILE* Documento;
+	FILE* Configuraciones;
 	FILE* Instrucciones;
 	char Linea[255];
 	TDAGlosario Glosario;
@@ -34,17 +36,31 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 	int error = OK;
 
-	if ((fopen(RutaIns,"r") == NULL) || (fopen(RutaConf,"r") == NULL) || (fopen(RutaDoc,"r") == NULL)) /* Compruebo que los archivos existan */
-	{
-		fprintf(stderr,"Archivo(s) Inexistente(s)\n");
-		return FALSE; /* Un Enum quedaría mejor */
-	}
+	int destruido = FALSE;
+
+	/* Compruebo que los archivos existan */
+	Documento = fopen(RutaDoc,"r");
+
+	if (Documento == NULL)
+		return FALSE;
+	else
+		fclose(Documento);
+
+	Configuraciones = fopen(RutaConf,"r");
+
+	if (Configuraciones == NULL)
+		return FALSE;
+	else
+		fclose(Configuraciones);
 
 	Instrucciones = fopen(RutaIns,"r");
 
+	if (Instrucciones == NULL)
+		return FALSE;
+
 	error = CrearGlosario(&Glosario,RutaDoc,RutaConf);
 
-	while (!feof(Instrucciones)) /* Leo hasta que llegue al final */ /* No estoy seguro si se hace así */
+	while ((!feof(Instrucciones)) && (error == OK)) /* Leo hasta que llegue al final */ /* No estoy seguro si se hace así */
 	{
 
 		fgets(Linea, 5, Instrucciones); /* Las instrucciones solo miden 4 caracteres (con el espacio) */
@@ -72,11 +88,16 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 					error = DestruirGlosario(&Glosario);
 
+					destruido = TRUE;
+
 				}
 			}
 		}
 
 	}
+
+	if (destruido == FALSE)
+		error = DestruirGlosario(&Glosario);
 
 	fclose(Instrucciones);
 

@@ -8,6 +8,13 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 	TDAParser ListaParser;
 
 	error = PA_Crear(documento,arch_config,&ListaParser);
+	if (error != 1)
+	{
+		PA_Destruir(&ListaParser);
+		return error;
+	}
+
+	AB_Crear(&g->arbol,sizeof(TPalabra));
 
 	/* Magia */
 
@@ -20,7 +27,7 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 int DestruirGlosario(TDAGlosario* g)
 {
 
-	/* Magia */
+	AB_Vaciar(&g->arbol);
 
 	return TRUE;
 
