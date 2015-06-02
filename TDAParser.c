@@ -184,14 +184,18 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 			if ((letra >= 'A') && (letra <= 'Z'))
 				letra = letra + 'a' - 'A';
 
-			Elem.palabra[largo] = letra;
-			largo++;
-
 			if (primera_letra == TRUE)
 			{
+				if ((letra >= 'a') && (letra <= 'z'))
+					letra = letra - 'a' + 'A';
+
 				Elem.pos = pos;
 				primera_letra = FALSE;
 			}
+
+			Elem.palabra[largo] = letra;
+			largo++;
+
 		}
 		else
 		{
