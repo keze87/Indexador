@@ -207,7 +207,7 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 			{
 
 				/*error = L_Insertar_Cte(ListaParser,L_Siguiente,&Elem);*/
-				error=insertar_ordenado(ListaParser, Elem);
+				error=insertar_lista(ListaParser, Elem);
 
 			}
 
@@ -225,6 +225,39 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 
 }
 
+int insertar_lista(TListaSimple* ListaParser, TElemParser Elem){
+    TElemParser aux;
+    int mov=OK;
+    int error=OK;
+
+    if (L_Vacia(*ListaParser)){ /*si esta vacia, lo inserto en el primero y salgo*/
+        L_Insertar_Cte(ListaParser, L_Primero, &Elem);
+        return OK;
+    }
+
+    mov=L_Mover_Cte(ListaParser, L_Primero);
+    L_Elem_Cte(*ListaParser, &aux);
+    while((mov==OK)&&(strcmp(aux.palabra, Elem.palabra)!=0)){ /*recorro mientras puede avanzar y es distinto al que busco*/
+        mov=L_Mover_Cte(ListaParser, L_Siguiente);
+        L_Elem_Cte(*ListaParser, &aux);
+    }
+    if (mov!=OK){  /*si no se encontro, lo agrego al final de la lista*/
+        error=L_Insertar_Cte(ListaParser, L_Siguiente, &Elem);
+    }
+    else{
+        while((mov==OK)&&(strcmp(aux.palabra, Elem.palabra)==0)){ /*por si hay varias coincidencias, me posiciono al final*/
+            mov=L_Mover_Cte(ListaParser, L_Siguiente);
+            L_Elem_Cte(*ListaParser, &aux);
+        }
+        if (mov!=OK)  /*si fue el fin de la lista*/
+            error=L_Insertar_Cte(ListaParser, L_Siguiente, &Elem);
+        else
+            error=L_Insertar_Cte(ListaParser, L_Anterior, &Elem); /*si esta en el medio, lo agrego al anterior porque ya me pase*/
+    }
+    return error;
+}
+
+/*no se esta usando esta funcion por ahora*/
 int insertar_ordenado(TListaSimple* ListaParser, TElemParser Elem){
     TElemParser aux;
     int mov=OK;
