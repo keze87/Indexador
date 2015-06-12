@@ -41,25 +41,34 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 	Documento = fopen(RutaDoc,"r");
 
 	if (Documento == NULL)
+	{
+		fprintf(stderr,"Archivo %s Inexistente\n",RutaDoc);
 		return FALSE;
+	}
 	else
 		fclose(Documento);
 
 	Configuraciones = fopen(RutaConf,"r");
 
 	if (Configuraciones == NULL)
+	{
+		fprintf(stderr,"Archivo %s Inexistente\n",RutaConf);
 		return FALSE;
+	}
 	else
 		fclose(Configuraciones);
 
 	Instrucciones = fopen(RutaIns,"r");
 
 	if (Instrucciones == NULL)
+	{
+		fprintf(stderr,"Archivo %s Inexistente\n",RutaIns);
 		return FALSE;
+	}
 
 	error = CrearGlosario(&Glosario,RutaDoc,RutaConf);
 
-	while ((!feof(Instrucciones)) && (error == OK)) /* Leo hasta que llegue al final */ /* No estoy seguro si se hace así */
+	while ((!feof(Instrucciones)) && (error == OK)) /* Leo hasta que llegue al final */
 	{
 
 		fgets(Linea, 5, Instrucciones); /* Las instrucciones solo miden 4 caracteres (con el espacio) */
@@ -82,7 +91,7 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 			}
 			else
 			{
-				if (strcmp(Linea,"-dg") >= 0)
+				if ((strcmp(Linea,"-dg") >= 0) && (destruido == FALSE))
 				{
 
 					error = DestruirGlosario(&Glosario);
