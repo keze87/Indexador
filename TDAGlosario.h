@@ -18,6 +18,12 @@ typedef struct TPalabra{
 	int cont; /* veces que aparece */
 }TPalabra;
 
+typedef struct TPosicion{
+	int pag;
+	int linea;
+	int pos;
+}TPosicion;
+
 int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config);
 
 int DestruirGlosario(TDAGlosario* g);
