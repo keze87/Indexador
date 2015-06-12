@@ -145,10 +145,55 @@ int DestruirGlosario(TDAGlosario* g)
 
 int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResultado)
 {
+    int error=OK;
+    TPalabra elem;
+
+    printf("\nPALABRA BUSCADA: %s\n", palabra);
+
+    /*si busqueda   devuelve 1 es porque no se encontro
+                    devuelve 0 si se encontro
+    */
+    error=busqueda(&(g->arbol), palabra);
+    if (error==1){  /*si no lo encontro*/
+        printf("La palabra %s no se encontro\n", palabra);
+        return error;
+    }
+    AB_ElemCte(g->arbol, &elem);
+    printf("PAL: %s %d\n", elem.palabra, elem.cont);
 
 	/* Magia */
 
 	return TRUE;
+
+}
+
+int busqueda(TAB *arbol, char *palabra){
+    TPalabra elem;
+    int error=OK;
+    int mov;
+
+    if (AB_Vacio(*arbol)){
+        printf("VACIOO");
+        return 1;
+    }
+    AB_ElemCte(*arbol, &elem);
+
+    if(strcmp(elem.palabra, palabra)==0)
+        return 0;
+    if(strcmp(elem.palabra, palabra)>0)
+        mov=IZQ;
+    else
+        mov=DER;
+    printf("MOV=%d\n",mov);
+    error=AB_MoverCte(arbol, mov);
+    if(error==TRUE){
+        error=busqueda(arbol, palabra);
+        return error;
+    }
+    else{
+        
+        return 1;
+    }
 
 }
 
