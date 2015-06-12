@@ -15,6 +15,8 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 	}
 
 	AB_Crear(&g->arbol,sizeof(TPalabra));
+	
+	lista_a_arbol(g, ListaParser);
 
 	/* Magia */
 
