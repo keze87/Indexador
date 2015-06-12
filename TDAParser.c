@@ -289,29 +289,9 @@ int insertar_ordenado(TListaSimple* ListaParser, TElemParser Elem){
 int PA_Destruir(TDAParser* Parser)
 {
 
-	/* Esto vuela */
-	int error = OK;
-	TElemParser Elem;
-	/* Esto vuela */
-
 	/* Compruebo que la lista esté creada */
 	if (Parser->parser.TamanioDato != sizeof(TElemParser))
 		return 0; /* KO */
-
-	/* Esto vuela */
-	error = L_Mover_Cte(&Parser->parser,L_Primero);
-
-	while (error == OK)
-	{
-		L_Elem_Cte(Parser->parser,&Elem);
-		error = L_Mover_Cte(&Parser->parser,L_Siguiente);
-
-		printf("Palabra: %s\n",Elem.palabra);
-		printf("Pagina: %d\n",Elem.pagina);
-		printf("Linea: %d\n",Elem.linea);
-		printf("Posicion: %d\n\n",Elem.pos);
-	}
-	/* Esto vuela */
 
 	L_Vaciar(&Parser->parser);
 

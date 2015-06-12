@@ -15,7 +15,7 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 	}
 
 	AB_Crear(&g->arbol,sizeof(TPalabra));
-	
+
 	lista_a_arbol(g, ListaParser);
 
 	/* Magia */
@@ -27,7 +27,6 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 }
 
 int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser){
-    int error;
     int mov=OK;
     TPalabra elem;
     TElemParser aux_parser;
@@ -60,7 +59,7 @@ int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser){
         /*guardo el elem en el arbol*/
 
         if (AB_Vacio(g->arbol)){ /*si el arbol esta vacio, lo inserto en el raiz*/
-            error=AB_Insertar(&(g->arbol), RAIZ, &elem);
+            AB_Insertar(&(g->arbol), RAIZ, &elem);
             /*printf("%s. %d\n", elem.palabra, elem.cont);*/
         }
         else{
@@ -76,11 +75,12 @@ int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser){
     if (mov!=OK)
         return 0; /*termino de recorrer la lista parser*/
 
+	return 1;
+
 }
 
 int guardar_ordenado(TAB *arbol, TPalabra elem){    /*esta hecho recursivo*/
     int error=OK;
-    int mov=OK;
     TPalabra aux;
 
     if (AB_Vacio(*arbol)){ /*si el arbol esta vacio, lo inserto en el raiz*/
@@ -105,6 +105,8 @@ int guardar_ordenado(TAB *arbol, TPalabra elem){    /*esta hecho recursivo*/
         else
             return(guardar_ordenado(arbol, elem));
     }
+
+    return error;
 
 }
 
@@ -191,7 +193,7 @@ int busqueda(TAB *arbol, char *palabra){
         return error;
     }
     else{
-        
+
         return 1;
     }
 

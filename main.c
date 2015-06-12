@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "TDAGlosario.h"
 
 int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns);

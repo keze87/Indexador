@@ -25,4 +25,6 @@ int PConfiguraciones(char* RutaConf, char separadores[255]);
 
 int insertar_ordenado(TListaSimple* ListaParser, TElemParser Elem);
 
+int insertar_lista(TListaSimple* ListaParser, TElemParser Elem);
+
 #endif
