@@ -24,6 +24,58 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 
 }
 
+int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser){
+    int error;
+    int mov=OK;
+    TPalabra elem;
+    TElemParser aux_parser;
+    TPosicion posicion;
+
+    if (L_Vacia(ListaParser.parser))
+        return 0; /*si esta vacia, deja vacio el glosario tambien*/
+
+    mov=L_Mover_Cte(&(ListaParser.parser), L_Primero);
+    L_Elem_Cte(ListaParser.parser, &aux_parser);
+
+    while (mov==OK){
+
+        strcpy(elem.palabra, aux_parser.palabra);
+        /*printf("ASD: %s\n", elem.palabra);*/
+        L_Crear(&(elem.posiciones), sizeof(TPosicion));
+        elem.cont=0; /*inicializo el contador*/
+        while((mov==OK)&&(strcmp(elem.palabra, aux_parser.palabra)==0)){   /*mientras no termine y sea igual la palabra*/
+            posicion.linea=aux_parser.linea;
+            posicion.pag=aux_parser.pagina;
+            posicion.pos=aux_parser.pos;
+            if (L_Vacia(elem.posiciones))   /*si esta vacia la lista, lo agrego en el primero. si no, en el siguiente*/
+                L_Insertar_Cte(&(elem.posiciones), L_Primero, &posicion);
+            else
+                L_Insertar_Cte(&(elem.posiciones), L_Siguiente, &posicion);
+            (elem.cont)++;
+            mov=L_Mover_Cte(&(ListaParser.parser), L_Siguiente);
+            L_Elem_Cte(ListaParser.parser, &aux_parser);
+        }
+        /*guardo el elem en el arbol*/
+
+        if (AB_Vacio(g->arbol)){ /*si el arbol esta vacio, lo inserto en el raiz*/
+            error=AB_Insertar(&(g->arbol), RAIZ, &elem);
+            /*printf("%s. %d\n", elem.palabra, elem.cont);*/
+        }
+        else{
+            AB_MoverCte(&(g->arbol), RAIZ); /*como no esta vacio el arbol, no puede dar error*/
+            guardar_ordenado(&(g->arbol), elem);
+            /*printf("%s. %d\n", elem.palabra, elem.cont);*/
+        }
+
+    }
+    printf("\n--MUESTRO LO QUE HAY EN EL ARBOL--\n");
+    in_order(g->arbol, RAIZ); /*para chequear que este bien guardado en el arbol*/
+    printf("\n----------------\n");
+    if (mov!=OK)
+        return 0; /*termino de recorrer la lista parser*/
+
+}
+
 int guardar_ordenado(TAB *arbol, TPalabra elem){    /*esta hecho recursivo*/
     int error=OK;
     int mov=OK;
