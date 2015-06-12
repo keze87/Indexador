@@ -54,6 +54,32 @@ int guardar_ordenado(TAB *arbol, TPalabra elem){    /*esta hecho recursivo*/
 
 }
 
+void in_order(TAB arbol, int mov){
+    TPalabra elem;
+    int error;
+    int movim=OK;
+    TPosicion pos;
+
+    error=AB_MoverCte(&arbol, mov);
+    if(error==TRUE){
+        in_order(arbol, IZQ);
+        AB_ElemCte(arbol, &elem);
+        printf("\n%s. %d\n", elem.palabra, elem.cont);
+        L_Mover_Cte(&(elem.posiciones), L_Primero);
+
+        while(movim==OK){   /*recorro la lista de las posiciones de cada palabra*/
+            L_Elem_Cte(elem.posiciones, &pos);
+            printf("PAG: %d - LIN: %d - POS: %d\n", pos.pag, pos.linea, pos.pos);
+
+            movim=L_Mover_Cte(&(elem.posiciones), L_Siguiente);
+        }
+        in_order(arbol, DER);
+
+    }
+
+
+}
+
 int DestruirGlosario(TDAGlosario* g)
 {
 
