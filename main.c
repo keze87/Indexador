@@ -75,8 +75,9 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 		if (strcmp(Linea,"-cp ") == 0)
 		{
-
-			fgets(Linea, 250, Instrucciones);
+			
+			fscanf(Instrucciones, "%s", Linea);
+			/*fgets(Linea, 250, Instrucciones);*/
 
 			error = ConsultarPalabraGlosario(&Glosario,Linea,&Lista);
 
