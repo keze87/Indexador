@@ -150,8 +150,6 @@ int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResul
     int error=OK;
     TPalabra elem;
 
-    printf("\nPALABRA BUSCADA: %s\n", palabra);
-
     /*si busqueda   devuelve FALSE es porque no se encontro
                     devuelve TRUE si se encontro
     */
@@ -162,7 +160,14 @@ int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResul
         return error;
     }
     AB_ElemCte(g->arbol, &elem);
-    printf("PALABRA ENCONTRADA: %s %d\n", elem.palabra, elem.cont);
+    printf("\n%s\n", elem.palabra);
+    /*recorro la lista de las posiciones*/
+    mov=L_Mover_Cte(&(elem.posiciones), L_Primero);
+    while(mov==TRUE){
+        L_Elem_Cte(elem.posiciones, &elem_pos);
+        printf("pagina %d linea %d posicion %d\n", elem_pos.pag, elem_pos.linea, elem_pos.pos);
+        mov=L_Mover_Cte(&(elem.posiciones), L_Siguiente);
+    }
 
 	return TRUE;
 
