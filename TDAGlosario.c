@@ -152,18 +152,17 @@ int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResul
 
     printf("\nPALABRA BUSCADA: %s\n", palabra);
 
-    /*si busqueda   devuelve 1 es porque no se encontro
-                    devuelve 0 si se encontro
+    /*si busqueda   devuelve FALSE es porque no se encontro
+                    devuelve TRUE si se encontro
     */
+    AB_MoverCte(&(g->arbol), RAIZ);
     error=busqueda(&(g->arbol), palabra);
-    if (error==1){  /*si no lo encontro*/
+    if (error==FALSE){  /*si no lo encontro*/
         printf("La palabra %s no se encontro\n", palabra);
         return error;
     }
     AB_ElemCte(g->arbol, &elem);
-    printf("PAL: %s %d\n", elem.palabra, elem.cont);
-
-	/* Magia */
+    printf("PALABRA ENCONTRADA: %s %d\n", elem.palabra, elem.cont);
 
 	return TRUE;
 
@@ -172,29 +171,27 @@ int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResul
 int busqueda(TAB *arbol, char *palabra){
     TPalabra elem;
     int error=OK;
-    int mov;
+    int mov=RAIZ;
 
     if (AB_Vacio(*arbol)){
-        printf("VACIOO");
-        return 1;
+        return FALSE;
     }
     AB_ElemCte(*arbol, &elem);
 
     if(strcmp(elem.palabra, palabra)==0)
-        return 0;
+        return TRUE;
     if(strcmp(elem.palabra, palabra)>0)
         mov=IZQ;
     else
         mov=DER;
-    printf("MOV=%d\n",mov);
+    /*printf("MOV=%d\n",mov);*/
     error=AB_MoverCte(arbol, mov);
-    if(error==TRUE){
+    if(error!=FALSE){
         error=busqueda(arbol, palabra);
         return error;
     }
     else{
-
-        return 1;
+        return FALSE;
     }
 
 }
