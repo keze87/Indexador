@@ -43,6 +43,53 @@ Gastón Tulipani, Karina Matles, Cesar Ezequiel Herrera
 <a id="info-Útil" class="anchor" href="#info-%C3%9Atil" aria-hidden="true"><span class="octicon octicon-link"></span></a>Info Útil</h2>
 
 <h4>
+Archivos necesarios
+</h4>
+<pre><code><h6>Documento</h6>
+  Archivo de texto a procesar.
+<h6>
+Configuraciones
+</h6>
+  Archivo que cambia el comportamiento del Parser.
+
+  SALTO_PAGINA: caracter que divide Documento en varias páginas.
+  SEPARA_PALABRA: caracter/es que (ademas de '\n' '\ ' y EOF) separa/n las palabras de Documento.
+
+  Ej:
+
+  [SALTO_PAGINA]
+  caracter="#"
+
+  [SEPARA_PALABRA]
+  caracter=" "
+  caracter=","
+  caracter="?"
+  caracter="."
+  caracter=";"
+  caracter=":"
+  caracter="("
+  caracter=")"
+  caracter="-"
+<h6>
+  Instrucciones
+</h6>
+  Archivo que contiene ordenes.
+
+  -cp PALABRA: muestra por pantalla la/s posicion/es de PALABRA.
+  -rp: muestra por pantalla las palabras ordenadas segun su cantidad de apariciones.
+  -dg: destruye el glosario.
+
+  Ej:
+
+  -cp Algoritmos
+  -rp
+  -cp FIUBA
+  -dg
+  -dg
+  -rp
+
+</code></pre>
+<h4>
 Linux
 </h4>
 <pre><code><h6>Preparación</h6>
