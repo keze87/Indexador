@@ -1,4 +1,6 @@
-# IndexadorC
+# Info
+
+[bit.ly/IndexadorC](http://bit.ly/IndexadorC)
 
 ## Licencia
 
