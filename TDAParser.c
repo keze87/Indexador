@@ -257,34 +257,6 @@ int insertar_lista(TListaSimple* ListaParser, TElemParser Elem){
     return error;
 }
 
-/*no se esta usando esta funcion por ahora*/
-int insertar_ordenado(TListaSimple* ListaParser, TElemParser Elem){
-    TElemParser aux;
-    int mov=OK;
-
-    if (L_Vacia(*ListaParser)){ /*si esta vacia, lo inserto en el primero y salgo*/
-        L_Insertar_Cte(ListaParser, L_Primero, &Elem);
-        return OK;
-    }
-
-    L_Elem_Cte(*ListaParser, &aux);
-    if (strcmp(aux.palabra, Elem.palabra)>0) /*si el corriente es mayor que el que quiero insertar, voy al primero*/
-        L_Mover_Cte(ListaParser, L_Primero);
-
-    L_Elem_Cte(*ListaParser, &aux);
-    while ((mov==OK)&&(strcmp(aux.palabra, Elem.palabra)<=0)){   /*mientras que pueda moverse y el aux sea menor o igual al elem*/
-        mov=L_Mover_Cte(ListaParser, L_Siguiente);
-        L_Elem_Cte(*ListaParser, &aux);
-    }
-    if (mov!=OK)
-        L_Insertar_Cte(ListaParser, L_Siguiente, &Elem);
-    else
-        L_Insertar_Cte(ListaParser, L_Anterior, &Elem);
-
-    return OK;
-
-}
-
 
 int PA_Destruir(TDAParser* Parser)
 {
