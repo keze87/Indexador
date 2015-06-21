@@ -110,6 +110,28 @@ int guardar_ordenado(TAB *arbol, TPalabra elem){    /*esta hecho recursivo*/
 
 }
 
+/* Inserta un elemento en la lista de forma ordenada
+ * POST: Si puede insertar el elemento devuelve TRUE, sino devuelve FALSE
+ */
+int L_Insertar_Ordenado(TListaSimple* Lista, TPalabra Elem){
+	TPalabra aux;
+	int mov=TRUE;
+	if (L_Vacia(*Lista)) /* Si está vacía lo inserto como L_Primero y devuelvo el valor correspondiente */
+        	return (L_Insertar_Cte(Lista, L_Primero, &Elem)); /* Si pudo insertar: TRUE, sino FALSE */
+	L_Elem_Cte(*Lista, &aux);
+	if (aux.cont > Elem.cont) /* Si el corriente es mayor que el que quiero insertar, voy al primero */
+        	mov = L_Mover_Cte(Lista, L_Primero);
+	L_Elem_Cte(*Lista, &aux);
+	while ((mov == OK)&&(aux.cont <= Elem.cont)) { /* Mientras que pueda moverse y aux sea menor o igual al elem */
+		mov = L_Mover_Cte(Lista, L_Siguiente);
+		L_Elem_Cte(*Lista, &aux);
+	}
+	if (mov != TRUE)
+		return (L_Insertar_Cte(Lista, L_Siguiente, &Elem));
+	else
+        	return (L_Insertar_Cte(Lista, L_Anterior, &Elem));
+}
+
 void in_order(TAB arbol, int mov){
     TPalabra elem;
     int error;
@@ -162,7 +184,7 @@ int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResul
     AB_ElemCte(g->arbol, &elem);
     printf("\n%s\n", elem.palabra);
     /*recorro la lista de las posiciones*/
-    mov=L_Mover_Cte(&(elem.posiciones), L_Primero);
+    mov = L_Mover_Cte(&(elem.posiciones), L_Primero);
     while(mov==TRUE){
         L_Elem_Cte(elem.posiciones, &elem_pos);
         printf("pagina %d linea %d posicion %d\n", elem_pos.pag, elem_pos.linea, elem_pos.pos);
@@ -201,11 +223,27 @@ int busqueda(TAB *arbol, char *palabra){
 
 }
 
+/* Realiza un recorrido InOrder del árbol e inserta cada elemento en una lista
+ * La inserción puede fallar por falta de memoria. Si es exitosa devuelve TRUE, sino FALSE
+ */
+int RecorrerInOrder_InsertarEnLista(TAB arbol, int mov, TListaSimple* LResultado)
+{
+	TPalabra elem;
+	int error;
+	int result = TRUE;
+	error = AB_MoverCte(&arbol, mov);
+	if (error == TRUE) {
+        	RecorrerInOrder_InsertarEnLista(arbol, IZQ, LResultado);
+        	AB_ElemCte(arbol, &elem);
+        	result = L_Insertar_Ordenado(LResultado, elem);
+        	/* Inserto el elemento ordenado por cantidad de repeticiones */
+        	RecorrerInOrder_InsertarEnLista(arbol, DER, LResultado);
+    	}
+	return result;
+}
+
 int Ranking_palabras_Glosario(TDAGlosario* g, TListaSimple* LResultado)
 {
-
-	/* Más Magia */
-
-	return TRUE;
-
+	L_Crear(LResultado, sizeof(TPalabra));
+	return (RecorrerInOrder_InsertarEnLista((g->arbol), RAIZ, LResultado));
 }
