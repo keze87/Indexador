@@ -171,6 +171,8 @@ int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResul
 {
     int error=OK;
     TPalabra elem;
+    TPosicion elem_pos;
+    int mov;
 
     /*si busqueda   devuelve FALSE es porque no se encontro
                     devuelve TRUE si se encontro

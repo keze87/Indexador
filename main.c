@@ -87,9 +87,8 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 		{
 
 			fscanf(Instrucciones, "%s", Linea);
-			/*fgets(Linea, 250, Instrucciones);*/
 
-			error = ConsultarPalabraGlosario(&Glosario,Linea,&Lista);
+			ConsultarPalabraGlosario(&Glosario,Linea,&Lista);
 
 		}
 		else
@@ -98,7 +97,7 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 			{
 				error = MostrarRankingPalabras(&Glosario,&Lista);
 				if (error == FALSE)
-                    			fprintf(stderr,"No existe suficiente memoria\n");
+					fprintf(stderr,"No existe suficiente memoria\n");
 			}
 			else
 			{
@@ -127,7 +126,7 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 int MostrarRankingPalabras(TDAGlosario* g,TListaSimple* Lista)
 {
 	int mov,result;
-	TListaSimple* ListaAux;
+	TListaSimple ListaAux;
 	TPalabra elem;
 	result = Ranking_palabras_Glosario(g, Lista);
 	if (result != TRUE)
@@ -137,20 +136,20 @@ int MostrarRankingPalabras(TDAGlosario* g,TListaSimple* Lista)
 			fprintf(stderr,"El ranking se encuentra vacio.\n");
 			return TRUE;
         	}
-        	L_Crear(ListaAux, sizeof(TPalabra));
-        	result = InvertirLista(Lista, ListaAux);
+        	L_Crear(&ListaAux, sizeof(TPalabra));
+        	result = InvertirLista(Lista, &ListaAux);
         	if (result != TRUE)
         		return FALSE; /* No existe suficiente memoria */
         	else {
-        		mov = L_Mover_Cte(ListaAux, L_Primero); /* Sé que existe porque no esta vacía */
+        		mov = L_Mover_Cte(&ListaAux, L_Primero); /* Sé que existe porque no esta vacía */
         		while (mov) { /* Mientras pueda moverme */
-        			L_Elem_Cte(*ListaAux, &elem);
-				fprintf(stdout, "palabra%s %d repeticiones\n", elem.palabra, elem.cont);
-				mov = L_Mover_Cte(ListaAux, L_Siguiente);
+        			L_Elem_Cte(ListaAux, &elem);
+				fprintf(stdout, "%s %d repeticiones\n", elem.palabra, elem.cont);
+				mov = L_Mover_Cte(&ListaAux, L_Siguiente);
         		}
         		return TRUE;
         	}
-		
+
 	}
 }
 
