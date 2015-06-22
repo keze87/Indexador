@@ -69,9 +69,9 @@ int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser){
         }
 
     }
-    printf("\n--MUESTRO LO QUE HAY EN EL ARBOL--\n");
-    in_order(g->arbol, RAIZ); /*para chequear que este bien guardado en el arbol*/
-    printf("\n----------------\n");
+    /*printf("\n--MUESTRO LO QUE HAY EN EL ARBOL--\n");
+    in_order(g->arbol, RAIZ); *para chequear que este bien guardado en el arbol*
+    printf("\n----------------\n");*/
     if (mov!=OK)
         return 0; /*termino de recorrer la lista parser*/
 

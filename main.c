@@ -44,7 +44,7 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 	TListaSimple Lista;
 
 	int error = OK;
-
+	int aux;
 	int destruido = FALSE;
 
 	/* Compruebo que los archivos existan */
@@ -87,6 +87,13 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 		{
 
 			fscanf(Instrucciones, "%s", Linea);
+
+			for (aux = 0; aux < strlen(Linea); aux++)
+				if ((Linea[aux] >= 'A') && (Linea[aux] <= 'Z'))
+					Linea[aux] = Linea[aux] + 'a' - 'A';
+
+			if ((Linea[0] >= 'a') && (Linea[0] <= 'z'))
+				Linea[0] = Linea[0] - 'a' + 'A';
 
 			ConsultarPalabraGlosario(&Glosario,Linea,&Lista);
 
@@ -147,6 +154,8 @@ int MostrarRankingPalabras(TDAGlosario* g,TListaSimple* Lista)
 				fprintf(stdout, "%s %d repeticiones\n", elem.palabra, elem.cont);
 				mov = L_Mover_Cte(&ListaAux, L_Siguiente);
         		}
+
+        		L_Vaciar(&ListaAux);
         		return TRUE;
         	}
 
