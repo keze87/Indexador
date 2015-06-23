@@ -145,8 +145,10 @@ int MostrarRankingPalabras(TDAGlosario* g,TListaSimple* Lista)
         	}
         	L_Crear(&ListaAux, sizeof(TPalabra));
         	result = InvertirLista(Lista, &ListaAux);
-        	if (result != TRUE)
+        	if (result != TRUE) {
+        		L_Vaciar(&ListaAux);
         		return FALSE; /* No existe suficiente memoria */
+        	}
         	else {
         		mov = L_Mover_Cte(&ListaAux, L_Primero); /* Sé que existe porque no esta vacía */
         		while (mov) { /* Mientras pueda moverme */
@@ -154,7 +156,6 @@ int MostrarRankingPalabras(TDAGlosario* g,TListaSimple* Lista)
 				fprintf(stdout, "%s %d repeticiones\n", elem.palabra, elem.cont);
 				mov = L_Mover_Cte(&ListaAux, L_Siguiente);
         		}
-
         		L_Vaciar(&ListaAux);
         		return TRUE;
         	}
