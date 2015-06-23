@@ -119,10 +119,10 @@ int L_Insertar_Ordenado(TListaSimple* Lista, TPalabra Elem){
 	if (L_Vacia(*Lista)) /* Si está vacía lo inserto como L_Primero y devuelvo el valor correspondiente */
         	return (L_Insertar_Cte(Lista, L_Primero, &Elem)); /* Si pudo insertar: TRUE, sino FALSE */
 	L_Elem_Cte(*Lista, &aux);
-	if (aux.cont > Elem.cont) /* Si el corriente es mayor que el que quiero insertar, voy al primero */
+	if (aux.cont < Elem.cont) /* Si el corriente es menor que el que quiero insertar, voy al primero */
         	mov = L_Mover_Cte(Lista, L_Primero);
 	L_Elem_Cte(*Lista, &aux);
-	while ((mov == OK)&&(aux.cont <= Elem.cont)) { /* Mientras que pueda moverse y aux sea menor o igual al elem */
+	while ((mov == OK)&&(aux.cont >= Elem.cont)) { /* Mientras que pueda moverse y aux sea mayor o igual al elem */
 		mov = L_Mover_Cte(Lista, L_Siguiente);
 		L_Elem_Cte(*Lista, &aux);
 	}
