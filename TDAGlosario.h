@@ -37,7 +37,7 @@ int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser);
 
 int guardar_ordenado(TAB *arbol, TPalabra elem);
 
-void in_order(TAB arbol, int mov);
+void DestruirListas(TAB arbol, int mov);
 
 int busqueda(TAB *arbol, char *palabra);
 

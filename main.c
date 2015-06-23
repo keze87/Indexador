@@ -73,6 +73,8 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 	error = CrearGlosario(&Glosario,RutaDoc,RutaConf);
 
+	printf("\n");
+
 	while ((!feof(Instrucciones)) && (error == OK)) /* Leo hasta que llegue al final */
 	{
 
@@ -92,6 +94,8 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 			ConsultarPalabraGlosario(&Glosario,Linea,&Lista);
 
+			printf("\n");
+
 		}
 		else
 		{
@@ -100,6 +104,8 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 				error = MostrarRankingPalabras(&Glosario,&Lista);
 				if (error == FALSE)
 					fprintf(stderr,"No existe suficiente memoria\n");
+
+				printf("\n");
 			}
 			else
 			{

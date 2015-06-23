@@ -18,8 +18,6 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 
 	lista_a_arbol(g, ListaParser);
 
-	/* Magia */
-
 	error = PA_Destruir(&ListaParser);
 
 	return error;
@@ -69,9 +67,7 @@ int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser){
         }
 
     }
-    /*printf("\n--MUESTRO LO QUE HAY EN EL ARBOL--\n");
-    in_order(g->arbol, RAIZ); *para chequear que este bien guardado en el arbol*
-    printf("\n----------------\n");*/
+
     if (mov!=OK)
         return 0; /*termino de recorrer la lista parser*/
 
@@ -132,26 +128,18 @@ int L_Insertar_Ordenado(TListaSimple* Lista, TPalabra Elem){
         	return (L_Insertar_Cte(Lista, L_Anterior, &Elem));
 }
 
-void in_order(TAB arbol, int mov){
+void DestruirListas(TAB arbol, int mov){
     TPalabra elem;
     int error;
-    int movim=OK;
-    TPosicion pos;
 
     error=AB_MoverCte(&arbol, mov);
+
     if(error==TRUE){
-        in_order(arbol, IZQ);
+        DestruirListas(arbol, IZQ);
         AB_ElemCte(arbol, &elem);
-        printf("\n%s. %d\n", elem.palabra, elem.cont);
-        L_Mover_Cte(&(elem.posiciones), L_Primero);
 
-        while(movim==OK){   /*recorro la lista de las posiciones de cada palabra*/
-            L_Elem_Cte(elem.posiciones, &pos);
-            printf("PAG: %d - LIN: %d - POS: %d\n", pos.pag, pos.linea, pos.pos);
-
-            movim=L_Mover_Cte(&(elem.posiciones), L_Siguiente);
-        }
-        in_order(arbol, DER);
+        L_Vaciar(&elem.posiciones);
+        DestruirListas(arbol, DER);
 
     }
 
@@ -160,6 +148,8 @@ void in_order(TAB arbol, int mov){
 
 int DestruirGlosario(TDAGlosario* g)
 {
+
+	DestruirListas(g->arbol,RAIZ);
 
 	AB_Vaciar(&g->arbol);
 
@@ -184,7 +174,7 @@ int ConsultarPalabraGlosario(TDAGlosario* g, char* palabra, TListaSimple* LResul
         return error;
     }
     AB_ElemCte(g->arbol, &elem);
-    printf("\n%s\n", elem.palabra);
+    printf("%s\n", elem.palabra);
     /*recorro la lista de las posiciones*/
     mov = L_Mover_Cte(&(elem.posiciones), L_Primero);
     while(mov==TRUE){
