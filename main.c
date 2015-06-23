@@ -7,11 +7,6 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns);
  */
 int MostrarRankingPalabras (TDAGlosario* g,TListaSimple* Lista);
 
-/* Se encarga de invertir los elemento de una lista
- * Si se puede realizar, devuelve TRUE, sino devuelve FALSE
- */
-int InvertirLista(TListaSimple* L1, TListaSimple* L2);
-
 int main(int argc, char *argv[])
 {
 
@@ -133,7 +128,6 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 int MostrarRankingPalabras(TDAGlosario* g,TListaSimple* Lista)
 {
 	int mov,result;
-	TListaSimple ListaAux;
 	TPalabra elem;
 	result = Ranking_palabras_Glosario(g, Lista);
 	if (result != TRUE)
@@ -143,40 +137,14 @@ int MostrarRankingPalabras(TDAGlosario* g,TListaSimple* Lista)
 			fprintf(stderr,"El ranking se encuentra vacio.\n");
 			return TRUE;
         	}
-        	L_Crear(&ListaAux, sizeof(TPalabra));
-        	result = InvertirLista(Lista, &ListaAux);
-        	if (result != TRUE) {
-        		L_Vaciar(&ListaAux);
-        		return FALSE; /* No existe suficiente memoria */
-        	}
         	else {
-        		mov = L_Mover_Cte(&ListaAux, L_Primero); /* Sé que existe porque no esta vacía */
+        		mov = L_Mover_Cte(Lista, L_Primero); /* Sé que existe porque no esta vacía */
         		while (mov) { /* Mientras pueda moverme */
-        			L_Elem_Cte(ListaAux, &elem);
+        			L_Elem_Cte(*Lista, &elem);
 				fprintf(stdout, "%s %d repeticiones\n", elem.palabra, elem.cont);
-				mov = L_Mover_Cte(&ListaAux, L_Siguiente);
+				mov = L_Mover_Cte(Lista, L_Siguiente);
         		}
-        		L_Vaciar(&ListaAux);
         		return TRUE;
         	}
-
-	}
-}
-
-int InvertirLista(TListaSimple* L1, TListaSimple* L2)
-{
-	int mov;
-	TPalabra elem;
-	if (L_Vacia(*L1) == TRUE)
-        	return TRUE;
-	else {
-        	mov = L_Mover_Cte(L1, L_Primero);
-        	while (mov) { /* Mientras pueda moverme */
-            		L_Elem_Cte(*L1,&elem);
-            		if (L_Insertar_Cte(L2, L_Primero, &elem) == FALSE)
-                		return FALSE; /* No se pudo insertar por falta de memoria */
-            		mov = L_Mover_Cte(L1, L_Siguiente);
-        	}
-        return TRUE;
 	}
 }
