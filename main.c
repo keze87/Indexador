@@ -73,6 +73,8 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 	error = CrearGlosario(&Glosario,RutaDoc,RutaConf);
 
+	L_Crear(&Lista, sizeof(TPalabra));
+
 	printf("\n");
 
 	while ((!feof(Instrucciones)) && (error == OK)) /* Leo hasta que llegue al final */

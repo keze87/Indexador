@@ -238,8 +238,7 @@ int RecorrerInOrder_InsertarEnLista(TAB arbol, int mov, TListaSimple* LResultado
 
 int Ranking_palabras_Glosario(TDAGlosario* g, TListaSimple* LResultado)
 {
-	if (LResultado->TamanioDato == sizeof(TPalabra))
-		L_Vaciar(LResultado);
+	L_Vaciar(LResultado);
 
 	L_Crear(LResultado, sizeof(TPalabra));
 
