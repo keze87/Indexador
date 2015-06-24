@@ -7,6 +7,8 @@ int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 
 	TDAParser ListaParser;
 
+	L_Crear(&ListaParser.parser,sizeof(TElemParser));
+
 	error = PA_Crear(documento,arch_config,&ListaParser);
 	if (error != 1)
 	{

@@ -146,8 +146,6 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 	Elem.linea = 1;
 	Elem.pos = 0;
 
-	L_Crear(ListaParser,sizeof(TElemParser));
-
 	while (!feof(Documento))
 	{
 
@@ -262,10 +260,6 @@ int insertar_lista(TListaSimple* ListaParser, TElemParser Elem){
 
 int PA_Destruir(TDAParser* Parser)
 {
-
-	/* Compruebo que la lista esté creada */
-	if (Parser->parser.TamanioDato != sizeof(TElemParser))
-		return 0; /* KO */
 
 	L_Vaciar(&Parser->parser);
 
