@@ -1,6 +1,7 @@
 #ifndef __TDAParser_H__
 #define __TDAParser_H__
 
+#include <stdio.h>
 #include "Lista.h"
 
 typedef struct TElemParser{

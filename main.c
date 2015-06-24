@@ -127,6 +127,8 @@ int Proceso(char* RutaDoc, char* RutaConf, char* RutaIns)
 
 	fclose(Instrucciones);
 
+	L_Vaciar(&Lista);
+
 	return error;
 
 }

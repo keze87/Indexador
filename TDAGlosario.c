@@ -128,21 +128,23 @@ int L_Insertar_Ordenado(TListaSimple* Lista, TPalabra Elem){
         	return (L_Insertar_Cte(Lista, L_Anterior, &Elem));
 }
 
-void DestruirListas(TAB arbol, int mov){
-    TPalabra elem;
-    int error;
+void DestruirListas(TAB arbol, int mov)
+{
 
-    error=AB_MoverCte(&arbol, mov);
+	TPalabra elem;
+	int error;
 
-    if(error==TRUE){
-        DestruirListas(arbol, IZQ);
-        AB_ElemCte(arbol, &elem);
+	error = AB_MoverCte(&arbol, mov);
 
-        L_Vaciar(&elem.posiciones);
-        DestruirListas(arbol, DER);
+	if (error == TRUE)
+	{
+		DestruirListas(arbol, IZQ);
 
-    }
+		AB_ElemCte(arbol, &elem);
+		L_Vaciar(&elem.posiciones);
 
+		DestruirListas(arbol, DER);
+	}
 
 }
 
@@ -236,6 +238,10 @@ int RecorrerInOrder_InsertarEnLista(TAB arbol, int mov, TListaSimple* LResultado
 
 int Ranking_palabras_Glosario(TDAGlosario* g, TListaSimple* LResultado)
 {
+	if (LResultado->TamanioDato == sizeof(TPalabra))
+		L_Vaciar(LResultado);
+
 	L_Crear(LResultado, sizeof(TPalabra));
+
 	return (RecorrerInOrder_InsertarEnLista((g->arbol), RAIZ, LResultado));
 }
