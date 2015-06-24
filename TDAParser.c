@@ -213,7 +213,10 @@ int PA_SigPalabra(char* RutaDoc, int cant_separadores, char* separadores, TLista
 			largo = 0;
 
 			if (es_separador == CambioPagina)
+			{
+				Elem.linea = 0;
 				Elem.pagina++;
+			}
 		}
 
 	}
