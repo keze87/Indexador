@@ -1,5 +1,10 @@
 #include "TDAGlosario.h"
 
+int lista_a_arbol(TDAGlosario* g, TDAParser ListaParser);
+int guardar_ordenado(TAB *arbol, TPalabra elem);
+void DestruirListas(TAB arbol, int mov);
+int busqueda(TAB *arbol, char *palabra);
+
 int CrearGlosario(TDAGlosario* g, char* documento, char* arch_config)
 {
 
