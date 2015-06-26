@@ -7,6 +7,10 @@ typedef enum Separador{
 	CambioPagina = 2
 }Separador;
 
+/* Procesa archivo Configraciones */
+int PConfiguraciones(char* RutaConf, char separadores[255]);
+int insertar_lista(TListaSimple* ListaParser, TElemParser Elem);
+
 int PA_Crear(char* RutaDoc, char* RutaConf, TDAParser* Resultado)
 {
 
